@@ -1,16 +1,16 @@
 name: Build CryptoTicker Tweak
 
 on:
-  workflow_dispatch: # 允许你在网页上手动点击按钮触发编译
+  workflow_dispatch:
   push:
-    branches: [ main ] # 每次你修改代码时也会自动触发
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: macos-latest
     env:
       THEOS: ${{ github.workspace }}/theos
-      THEOS_PACKAGE_SCHEME: roothide # 核心：指定打出 RootHide 兼容的包
+      THEOS_PACKAGE_SCHEME: roothide
 
     steps:
       - name: 检出当前仓库代码
@@ -20,8 +20,8 @@ jobs:
         run: brew install ldid xz
 
       - name: 拉取 Theos 编译框架
-            run: |
-              git clone --recursive https://github.com/RootHide/theos.git $THEOS
+        run: |
+          git clone --recursive https://github.com/RootHide/theos.git $THEOS
 
       - name: 下载并配置 iOS 16 SDK
         run: |
