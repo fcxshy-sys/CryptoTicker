@@ -1,0 +1,39 @@
+name: Build CryptoTicker Tweak
+
+on:
+  workflow_dispatch: # 允许你在网页上手动点击按钮触发编译
+  push:
+    branches: [ main ] # 每次你修改代码时也会自动触发
+
+jobs:
+  build:
+    runs-on: macos-latest
+    env:
+      THEOS: ${{ github.workspace }}/theos
+      THEOS_PACKAGE_SCHEME: roothide # 核心：指定打出 RootHide 兼容的包
+
+    steps:
+      - name: 检出当前仓库代码
+        uses: actions/checkout@v4
+
+      - name: 安装苹果系统依赖工具
+        run: brew install ldid xz
+
+      - name: 拉取 Theos 编译框架
+        run: |
+          git clone --recursive https://github.com/theos/theos.git $THEOS
+
+      - name: 下载并配置 iOS 16 SDK
+        run: |
+          curl -LO https://github.com/theos/sdks/releases/latest/download/iPhoneOS16.5.sdk.tar.xz
+          tar -xf iPhoneOS16.5.sdk.tar.xz -C $THEOS/sdks
+          rm iPhoneOS16.5.sdk.tar.xz
+
+      - name: 编译并打包 Tweak
+        run: make package
+
+      - name: 提取编译好的 .deb 文件供下载
+        uses: actions/upload-artifact@v4
+        with:
+          name: CryptoTicker-RootHide-DEB
+          path: packages/*.deb
