@@ -1,0 +1,9 @@
+Package: com.yourname.cryptoticker
+Name: CryptoTicker
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm64e
+Description: RootHide 状态栏比特币实时行情
+Maintainer: YourName
+Author: YourName
+Section: Tweaks
