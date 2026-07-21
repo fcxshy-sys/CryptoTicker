@@ -20,8 +20,8 @@ jobs:
         run: brew install ldid xz
 
       - name: 拉取 Theos 编译框架
-        run: |
-          git clone --recursive https://github.com/theos/theos.git $THEOS
+            run: |
+              git clone --recursive https://github.com/RootHide/theos.git $THEOS
 
       - name: 下载并配置 iOS 16 SDK
         run: |
